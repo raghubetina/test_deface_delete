@@ -1,0 +1,37 @@
+<%% was_validated = <%= singular_table_name %>.errors.any? %>
+
+<%% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+<%%= form_for(<%= singular_table_name %>, html: form_html_options) do |f| %>
+<% attributes.each do |attribute| -%>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <%% <%= attribute.name %>_was_invalid = <%= singular_table_name %>.errors.include?(:<%= attribute.name %>) %>
+
+      <%% <%= attribute.name %>_class = "form-control" %>
+
+      <%% if was_validated %>
+        <%% if <%= attribute.name %>_was_invalid %>
+          <%% <%= attribute.name %>_class << " is-invalid" %>
+        <%% else %>
+          <%% <%= attribute.name %>_class << " is-valid" %>
+        <%% end %>
+      <%% end %>
+
+      <%%= f.label :<%= attribute.name %> %>
+
+      <%%= f.<%= attribute.field_type %> :<%= attribute.name %>, class: <%= attribute.name %>_class %>
+
+      <%% if <%= attribute.name %>_was_invalid %>
+        <%% <%= singular_table_name %>.errors.full_messages_for(:<%= attribute.name %>).each do |message| %>
+          <div class="invalid-feedback">
+            <%%= message %>
+          </div>
+        <%% end %>
+      <%% end %>
+    </div>
+  </div>
+
+<% end -%>
+  <%%= f.button class: "btn btn-outline-secondary btn-block" %>
+<%% end %>
