@@ -1,0 +1,91 @@
+<% was_validated = movie.errors.any? %>
+
+<% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+<%= form_for(movie, html: form_html_options) do |f| %>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <% title_was_invalid = movie.errors.include?(:title) %>
+
+      <% title_class = "form-control" %>
+
+      <% if was_validated %>
+        <% if title_was_invalid %>
+          <% title_class << " is-invalid" %>
+        <% else %>
+          <% title_class << " is-valid" %>
+        <% end %>
+      <% end %>
+
+      <%= f.label :title %>
+
+      <%= f.text_field :title, class: title_class %>
+
+      <% if title_was_invalid %>
+        <% movie.errors.full_messages_for(:title).each do |message| %>
+          <div class="invalid-feedback">
+            <%= message %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <% description_was_invalid = movie.errors.include?(:description) %>
+
+      <% description_class = "form-control" %>
+
+      <% if was_validated %>
+        <% if description_was_invalid %>
+          <% description_class << " is-invalid" %>
+        <% else %>
+          <% description_class << " is-valid" %>
+        <% end %>
+      <% end %>
+
+      <%= f.label :description %>
+
+      <%= f.text_field :description, class: description_class %>
+
+      <% if description_was_invalid %>
+        <% movie.errors.full_messages_for(:description).each do |message| %>
+          <div class="invalid-feedback">
+            <%= message %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <% duration_was_invalid = movie.errors.include?(:duration) %>
+
+      <% duration_class = "form-control" %>
+
+      <% if was_validated %>
+        <% if duration_was_invalid %>
+          <% duration_class << " is-invalid" %>
+        <% else %>
+          <% duration_class << " is-valid" %>
+        <% end %>
+      <% end %>
+
+      <%= f.label :duration %>
+
+      <%= f.number_field :duration, class: duration_class %>
+
+      <% if duration_was_invalid %>
+        <% movie.errors.full_messages_for(:duration).each do |message| %>
+          <div class="invalid-feedback">
+            <%= message %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= f.button class: "btn btn-outline-secondary btn-block" %>
+<% end %>
